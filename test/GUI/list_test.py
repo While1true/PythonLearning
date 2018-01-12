@@ -53,6 +53,7 @@ class ListDir:
             return
         self.currentPath=self.sv.get() + "\\" + self.currentPath
         if(os.path.isdir(self.currentPath)):
+            self.list.delete(0, END)
             self._ListPath(self.currentPath)
         else:
             if('.txt' in self.currentPath):
@@ -85,7 +86,7 @@ class ListDir:
 
             os_listdir = os.listdir(path)
             listview=self.list
-            listview.delete(0,END)
+
             listview.insert(END, os.pardir)
             for file in os_listdir:
                 listview.insert(END,file)
@@ -96,7 +97,8 @@ class ListDir:
         elif os.path.isfile(path) and os.path.pardir(path):
             self._ListPath(os.path.pardir(path))
         else:
-            self.sv.set(path+' is no a directoy')
+            self.pathLabel.config(text=path+' is no a directoy')
+            self.sv.set(path)
             print(self.sv.get())
         self.window.update()
 

@@ -1,0 +1,1 @@
+print(type(['//img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d9/lazhuv2_org.gif']))

@@ -2,6 +2,7 @@
 from functools import partial
 from Tix import Tk,Button,X
 from tkMessageBox import showinfo,showwarning,showerror
+import win32com.client
 from PIL import ImageTk as it,Image
 TITLE="Welcome to this world "
 
@@ -36,4 +37,5 @@ for (key,value) in SIGNS.iteritems():
            ".upper()" if value==CRIT else ".title()")
     eval(cmd)
 top.mainloop()
+
 
