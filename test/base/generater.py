@@ -116,31 +116,31 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=s
 
             contentinfo = eachmessage.find(class_='WB_text W_f14')
             message['content'] = contentinfo.contents[0].strip().decode('utf8')
-
-            if contentinfo.a:
-                for hrefStr in contentinfo.a.contents:
-                    if (type(hrefStr) is bs4.element.NavigableString):
-                        message['hrefStr'] = getType(hrefStr.strip())
-                        break
-                message['href'] = contentinfo.a['href'].decode('utf8')
-
-            message['category'] = getType(message['content'])
-            boo=message['category'] == '基本'.decode('gbk').encode('utf8')
             try:
+                if contentinfo.a:
+                    for hrefStr in contentinfo.a.contents:
+                        if (type(hrefStr) is bs4.element.NavigableString):
+                            message['hrefStr'] = getType(hrefStr.strip())
+                            break
+                    message['href'] = contentinfo.a['href'].decode('utf8')
+
+                message['category'] = getType(message['content'])
+                boo = message['category'] == '基本'.decode('gbk').encode('utf8')
+
                 if (boo and message['hrefStr']!='展开全文'.decode('gbk').encode('utf8')):
                     message['category'] = message['hrefStr']
+                imgsbox=eachmessage.find(class_='media_box')
+                if (imgsbox):
+                    imgs = imgsbox.find_all(name='img')
+                    imgss = []
+                    if (imgs):
+                        for img in imgs:
+                            if (img['src']):
+                                imgss.append(img['src'])
+                    if (imgss):
+                        message['imgs'] = imgss
             except Exception as e:
                 pass
-            imgsbox=eachmessage.find(class_='media_box')
-            if(imgsbox):
-                imgs=imgsbox.find_all(name='img')
-                imgss = []
-                if (imgs):
-                    for img in imgs:
-                        if (img['src']):
-                            imgss.append(img['src'])
-                if (imgss):
-                    message['imgs'] = imgss
             print('\n')
             size += 1
             if dbhandler:
