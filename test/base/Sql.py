@@ -2,7 +2,6 @@
 import pymysql
 import sys
 print(sys.getdefaultencoding())
-import json
 
 sys.setdefaultencoding('utf8')
 class Mydb(object):
@@ -35,7 +34,7 @@ class Mydb(object):
         sql=self.insertSql % (cckey, ccvalue)
         print(sql)
         print(self.cursor.execute(sql))
-        print("≥…π¶-----------------------------------------------------------".encode('gbk'))
+        print("ÁªìÊùü-----------------------------------------------------------")
     def queryx(self):
         return self.cursor.fetchall()
 
