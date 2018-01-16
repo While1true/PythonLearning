@@ -54,7 +54,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; wvr=6; UOR=,,www.baidu.com; YF-Ugrow-G0=b02489d329584fca03ad6347fc915997; ALF=1547605082; SSOLoginState=1516069082; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPBymQPz4ImkamTTK5otIfUEyuG4K6JB8uFgtdEFXnScnWo.; SUB=_2A253WRCLDeRhGedG7VsV8ifEyT6IHXVULwVDrDV8PUNbmtBeLXnZkW9NUTixklMBL2hpYpmtAVN4yQfVADIYNotn; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0BLZvF0fuWetds; YF-V5-G0=1da707b8186f677d9e4ad50934b777b3; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=715404251121.3854.1516069090868; ULV=1516069090893:8:8:4:715404251121.3854.1516069090868:1516063438857; YF-Page-G0=8eed071541083194c6ced89d2e32c24a'
+            'Cookie': 'SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KMhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SINAGLOBAL=8695789997878.903.1502509905779; ULV=1516080527893:6:4:4:4580206429315.534.1516080525927:1516032507060; UOR=,,www.baidu.com; SUHB=0ida5oSGJ0ZYGP; ALF=1547615270; wvr=6; YF-Page-G0=b5853766541bcc934acef7f6116c26d1; SCF=AuX85wiJ9O0C48euOfN89HgpZCMFWFe_5ts0iD1AEQkCuoW7Qpsw4OeDGjyhhB4m8Jt2rjfFhW2zEqQdtiVD4cY.; SUB=_2A253Wfj3DeRhGedG7VsV8ifEyT6IHXVUL20_rDV8PUNbmtBeLWHGkW9NUTixknTlj8AIGUpv_lDXmDryE8_eg20K; SSOLoginState=1516079270; YF-Ugrow-G0=ad06784f6deda07eea88e095402e4243; YF-V5-G0=572595c78566a84019ac3c65c1e95574; _s_tentry=www.baidu.com; Apache=4580206429315.534.1516080525927; wb_cusLike_1869429822=N'
         }
     patten = '<html><head>qqqq</head><body>%s</body></html>'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
@@ -207,5 +207,8 @@ if __name__ == '__main__':
     for tt in threads:
         tt.join()
     dbhandler.close()
+    time.sleep(10)
+    import os
+    os.system('shutdown -s -t 00')
     # getpager(id=i2, pager=51,fromz="≥£”^ ¿“ÙŒ¢≤©".decode('gbk').encode('utf8'),dbhandler=dbhandler)
 
