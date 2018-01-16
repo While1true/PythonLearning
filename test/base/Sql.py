@@ -39,10 +39,14 @@ class Mydb(object):
             print(sql)
             self.cursor.execute(sql)
             print("结束-----------------------------------------------------------")
+            self.lock.release()
         except Exception as e:
             print(e.message)
         finally:
-            self.lock.release()
+            try:
+                self.lock.release()
+            except Exception as e:
+                pass
     def queryx(self):
         return self.cursor.fetchall()
 

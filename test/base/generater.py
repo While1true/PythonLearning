@@ -54,12 +54,12 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; wvr=6; UOR=,,www.baidu.com; YF-Ugrow-G0=b02489d329584fca03ad6347fc915997; ALF=1547605082; SSOLoginState=1516069082; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPBymQPz4ImkamTTK5otIfUEyuG4K6JB8uFgtdEFXnScnWo.; SUB=_2A253WRCLDeRhGedG7VsV8ifEyT6IHXVULwVDrDV8PUNbmtBeLXnZkW9NUTixklMBL2hpYpmtAVN4yQfVADIYNotn; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0BLZvF0fuWetds; YF-V5-G0=1da707b8186f677d9e4ad50934b777b3; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=715404251121.3854.1516069090868; ULV=1516069090893:8:8:4:715404251121.3854.1516069090868:1516063438857; YF-Page-G0=8eed071541083194c6ced89d2e32c24a'
+            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; UOR=,,www.baidu.com; YF-Ugrow-G0=ad06784f6deda07eea88e095402e4243; SUHB=0d4PHul2jaeDIQ; ALF=1547618841; SSOLoginState=1516082841; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByUz1ZRwJhevaURbOYfud_AeoZClbjNUxDErUl33FMDN4.; SUB=_2A253WebKDeRhGedG7VsV8ifEyT6IHXVUL18CrDV8PUNbmtBeLVOtkW9NUTixkp23O9ihiaVh47rVmpMjvBKuOs9-; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; wvr=6; YF-V5-G0=1312426fba7c62175794755e73312c7d; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=1130457195963.7322.1516082845917; ULV=1516082845971:9:9:5:1130457195963.7322.1516082845917:1516069090893; YF-Page-G0=35f114bf8cf2597e9ccbae650418772f'
         }
     patten = '<html><head>qqqq</head><body>%s</body></html>'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
         id_=id, pager_=pager)
-    # print('>>>> '+url)
+    print('>>>> '+url)
     request = urllib2.Request(url, headers=headers)
     texts = urllib2.urlopen(request).read()
     rexx = '(?:pl\.content\.homeFeed\.index).*?(?:Pl_Official_MyProfileFeed).*?"html":"(.*?)\"\}\)\</script\>'
@@ -145,8 +145,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             data=None
             time.sleep(0.1)
         except Exception as e:
-            print('=========================='+str(pager))
-            print("E=========================E"+e.message)
+            print(str(pager)+"E=========================E"+e.message)
             pass
 
     print('------------第'+str(pager)+'页结束----------------'+str(size)).decode('gbk')
@@ -196,10 +195,10 @@ if __name__ == '__main__':
     dbhandler = Mydb()
     threads=[]
     step=40
-    for i in  range(1,600,step):
+    for i in  range(561,800,step):
         print(i)
         # "常觀世音微博".decode('gbk').encode('utf8')
-        thread=threading.Thread(target=getpager,args=(None,i2, i,name,dbhandler,i+step-1,id2,rnd))
+        thread=threading.Thread(target=getpager,args=(None,i2, i,name.decode('gbk').encode('utf8'),dbhandler,i+step-1,id2,rnd))
         threads.append(thread)
     for tt in threads:
         tt.start()
