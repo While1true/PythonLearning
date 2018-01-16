@@ -4,9 +4,11 @@ import sys
 print(sys.getdefaultencoding())
 
 sys.setdefaultencoding('utf8')
+import threading
 class Mydb(object):
     tableName='master'
     def __init__(self):
+        self.lock=threading.Lock()
         self.client = pymysql.connect(host='localhost',charset='utf8', port=3306, user='root', passwd='ck123', db='weibo')
         self.client.autocommit(True)
         self.cursor = self.client.cursor()
@@ -30,11 +32,17 @@ class Mydb(object):
             ccvalue+="'"+str(value)+"',"
         cckey=cckey[:-1]
         ccvalue=ccvalue[:-1]
-        print("-----------------------------------------------------------")
-        sql=self.insertSql % (cckey, ccvalue)
-        print(sql)
-        print(self.cursor.execute(sql))
-        print("结束-----------------------------------------------------------")
+        try:
+            self.lock.acquire()
+            print("-----------------------------------------------------------")
+            sql = self.insertSql % (cckey, ccvalue)
+            print(sql)
+            self.cursor.execute(sql)
+            print("结束-----------------------------------------------------------")
+        except Exception as e:
+            print(e.message)
+        finally:
+            self.lock.release()
     def queryx(self):
         return self.cursor.fetchall()
 
