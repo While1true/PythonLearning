@@ -187,24 +187,29 @@ if __name__ == '__main__':
           {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'常觀世音微博'},
           {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'善心莲心微博'}
           ]
-    chose=1
-    i2=maps[chose]['i2']
-    id2=maps[chose]['id2']
-    rnd=maps[chose]['rnd']
-    name=maps[chose]['name']
-    dbhandler = Mydb()
-    threads=[]
-    step=40
-    for i in  range(561,800,step):
-        print(i)
+    for chose in range(0,maps.__len__()):
+        i2=maps[chose]['i2']
+        id2 = maps[chose]['id2']
+        rnd = maps[chose]['rnd']
+        name = maps[chose]['name']
+
+        threads = []
+        dbs = []
+        step = 40
+        for i in range(0, 800, step):
+            print(i)
         # "常觀世音微博".decode('gbk').encode('utf8')
-        thread=threading.Thread(target=getpager,args=(None,i2, i,name.decode('gbk').encode('utf8'),dbhandler,i+step-1,id2,rnd))
-        threads.append(thread)
-    for tt in threads:
-        tt.start()
-        time.sleep(0.5)
-    for tt in threads:
-        tt.join()
-    dbhandler.close()
+            dbhandler = Mydb()
+            dbs.append(dbhandler)
+            thread = threading.Thread(target=getpager, args=(
+            None, i2, i, name.decode('gbk').encode('utf8'), dbhandler, i + step - 1, id2, rnd))
+            threads.append(thread)
+        for tt in threads:
+            tt.start()
+            time.sleep(0.5)
+        for tt in threads:
+            tt.join()
+        for dbz in dbs:
+            dbz.close()
     # getpager(id=i2, pager=51,fromz="常觀世音微博".decode('gbk').encode('utf8'),dbhandler=dbhandler)
 

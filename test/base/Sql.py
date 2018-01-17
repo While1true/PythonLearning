@@ -32,21 +32,9 @@ class Mydb(object):
             ccvalue+="'"+str(value)+"',"
         cckey=cckey[:-1]
         ccvalue=ccvalue[:-1]
-        try:
-            self.lock.acquire()
-            print("-----------------------------------------------------------")
-            sql = self.insertSql % (cckey, ccvalue)
-            print(sql)
-            self.cursor.execute(sql)
-            print("结束-----------------------------------------------------------")
-            self.lock.release()
-        except Exception as e:
-            print(e.message)
-        finally:
-            try:
-                self.lock.release()
-            except Exception as e:
-                pass
+        sql = self.insertSql % (cckey, ccvalue)
+        print(sql)
+        self.cursor.execute(sql)
     def queryx(self):
         return self.cursor.fetchall()
 
