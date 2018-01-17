@@ -54,12 +54,12 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KMhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SINAGLOBAL=8695789997878.903.1502509905779; ULV=1516080527893:6:4:4:4580206429315.534.1516080525927:1516032507060; UOR=,,www.baidu.com; SUHB=0ida5oSGJ0ZYGP; ALF=1547615270; wvr=6; YF-Page-G0=b5853766541bcc934acef7f6116c26d1; SCF=AuX85wiJ9O0C48euOfN89HgpZCMFWFe_5ts0iD1AEQkCuoW7Qpsw4OeDGjyhhB4m8Jt2rjfFhW2zEqQdtiVD4cY.; SUB=_2A253Wfj3DeRhGedG7VsV8ifEyT6IHXVUL20_rDV8PUNbmtBeLWHGkW9NUTixknTlj8AIGUpv_lDXmDryE8_eg20K; SSOLoginState=1516079270; YF-Ugrow-G0=ad06784f6deda07eea88e095402e4243; YF-V5-G0=572595c78566a84019ac3c65c1e95574; _s_tentry=www.baidu.com; Apache=4580206429315.534.1516080525927; wb_cusLike_1869429822=N'
+            'Cookie': 'SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SINAGLOBAL=8695789997878.903.1502509905779; ULV=1516115400826:8:6:6:4081037197507.004.1516115400823:1516101651728; UOR=,,www.baidu.com; SUHB=0N2EPvXCxzLotI; ALF=1547651394; wvr=6; SCF=AuX85wiJ9O0C48euOfN89HgpZCMFWFe_5ts0iD1AEQkCNv2i8iBJOdDtWsj65nCUMrw5AlWAdD87LCOS7EKB1f0.; YF-Ugrow-G0=8751d9166f7676afdce9885c6d31cd61; SUB=_2A253WmWUDeRhGedG7VsV8ifEyT6IHXVULtBcrDV8PUNbmtBeLRjtkW9NUTixkmBCpicZFjtMJUwkqpX-Wkt_ROAs; SSOLoginState=1516115395; YF-V5-G0=1312426fba7c62175794755e73312c7d; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=4081037197507.004.1516115400823; YF-Page-G0=2d32d406b6cb1e7730e4e69afbffc88c'
         }
     patten = '<html><head>qqqq</head><body>%s</body></html>'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
         id_=id, pager_=pager)
-    # print('>>>> '+url)
+    print('>>>> '+url)
     request = urllib2.Request(url, headers=headers)
     texts = urllib2.urlopen(request).read()
     rexx = '(?:pl\.content\.homeFeed\.index).*?(?:Pl_Official_MyProfileFeed).*?"html":"(.*?)\"\}\)\</script\>'
@@ -76,7 +76,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
     soup = BeautifulSoup(save, 'lxml')
 
     allmessage = soup.find(class_='WB_feed WB_feed_v3 WB_feed_v4')
-    time.sleep(randint(4, 6))
+    time.sleep(5)
     pager1 = 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100505&is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager}&pagebar=0&pl_name=Pl_Official_MyProfileFeed__24&id={id2}&script_uri=/{name}&feed_type=0&pre_page={prepager}&domain_op=100505&__rnd={rnd}'.format(
         pager=pager, name=id,id2=id2,rnd=rnd, prepager=pager)
     print(pager1)
@@ -84,7 +84,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
     beautiful_soup = BeautifulSoup(data,'lxml')
     list1=beautiful_soup.find_all(class_='WB_cardwrap WB_feed_type S_bg2 WB_feed_like ')
     allmessage.contents.extend(list1)
-    time.sleep(randint(4, 6))
+    time.sleep(5)
     pager2 = 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100505&is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager}&pagebar=1&pl_name=Pl_Official_MyProfileFeed__24&id={id2}&script_uri=/{name}&feed_type=0&pre_page={prepager}&domain_op=100505&__rnd={rnd}'.format(
         pager=pager, name=id,id2=id2,rnd=rnd, prepager=pager)
     print(pager2)
@@ -141,20 +141,17 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             size += 1
             if dbhandler:
                 dbhandler.insertx(message)
-            message.clear()
-            data=None
-            time.sleep(0.1)
+            time.sleep(1)
         except Exception as e:
-            print('=========================='+str(pager))
-            print("E=========================E"+e.message)
+            print(str(pager)+"E=========================E"+e.message)
             pass
 
     print('------------第'+str(pager)+'页结束----------------'+str(size)).decode('gbk')
     print('\n')
-    time.sleep(randint(4,12))
+    time.sleep(randint(5,8))
     if(size==0 or pager>=endPager):
-       return
-    getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd)
+       pass
+    else:getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd)
     return
 
 def getType(type):
@@ -188,27 +185,32 @@ if __name__ == '__main__':
           {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'常觀世音微博'},
           {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'善心莲心微博'}
           ]
-    chose=1
-    i2=maps[chose]['i2']
-    id2=maps[chose]['id2']
-    rnd=maps[chose]['rnd']
-    name=maps[chose]['name']
-    dbhandler = Mydb()
-    threads=[]
-    step=40
-    for i in  range(1,600,step):
-        print(i)
-        # "常觀世音微博".decode('gbk').encode('utf8')
-        thread=threading.Thread(target=getpager,args=(None,i2, i,name,dbhandler,i+step-1,id2,rnd))
-        threads.append(thread)
-    for tt in threads:
-        tt.start()
-        time.sleep(0.5)
-    for tt in threads:
-        tt.join()
-    dbhandler.close()
-    time.sleep(10)
-    import os
-    os.system('shutdown -s -t 00')
+    for chose in range(0,maps.__len__()):
+        i2 = maps[chose]['i2']
+        id2 = maps[chose]['id2']
+        rnd = maps[chose]['rnd']
+        name = maps[chose]['name']
+
+        threads = []
+        dbs = []
+        step = 50
+        for i in range(1, 700, step):
+            print(i)
+            # "常觀世音微博".decode('gbk').encode('utf8')
+            dbhandler = Mydb()
+            dbs.append(dbhandler)
+            thread = threading.Thread(target=getpager, args=(
+            None, i2, i, name.decode('gbk').encode('utf8'), dbhandler, i + step - 1, id2, rnd))
+            threads.append(thread)
+        for tt in threads:
+            tt.start()
+        for tt in threads:
+            tt.join()
+        for dbss in dbs:
+            dbss.close()
+        print("----------------------------------over----------------------------")
+    import  os
+    time.sleep(5)
+    os.system('shutdown -s -t 0')
     # getpager(id=i2, pager=51,fromz="常觀世音微博".decode('gbk').encode('utf8'),dbhandler=dbhandler)
 
