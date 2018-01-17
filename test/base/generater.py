@@ -183,7 +183,11 @@ def getType(type):
     return TYPES[a]
 
 if __name__ == '__main__':
+# 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd?current_page=3&since_id=44&page=3#Pl_Third_App__46'
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=7&since_id=104&page=3&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160841956'
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=8&since_id=119&page=3&pagebar=1&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160801500'
 
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=4&since_id=59&page=2&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=2&domain_op=100808&__rnd=1516160907286'
     maps=[{'i2' : 'u/5549438666','id2': 1005055549438666,'rnd': 1516069137716,'name':'纻麻兰若-常观世音法语集'},
           {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'常觀世音微博'},
           {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'善心莲心微博'}
