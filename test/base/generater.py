@@ -54,9 +54,10 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; UOR=,,www.baidu.com; YF-Ugrow-G0=ad06784f6deda07eea88e095402e4243; SUHB=0d4PHul2jaeDIQ; ALF=1547618841; SSOLoginState=1516082841; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByUz1ZRwJhevaURbOYfud_AeoZClbjNUxDErUl33FMDN4.; SUB=_2A253WebKDeRhGedG7VsV8ifEyT6IHXVUL18CrDV8PUNbmtBeLVOtkW9NUTixkp23O9ihiaVh47rVmpMjvBKuOs9-; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; wvr=6; YF-V5-G0=1312426fba7c62175794755e73312c7d; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=1130457195963.7322.1516082845917; ULV=1516082845971:9:9:5:1130457195963.7322.1516082845917:1516069090893; YF-Page-G0=35f114bf8cf2597e9ccbae650418772f'
+            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; wvr=6; YF-Ugrow-G0=ea90f703b7694b74b62d38420b5273df; ALF=1547685409; SSOLoginState=1516149409; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByi__bYqce2Nsg57VzYRsiEBf0Rm12FkPxSJFft0xipA0.; SUB=_2A253WuryDeRhGedG7VsV8ifEyT6IHXVULls6rDV8PUNbmtBeLXnYkW9NUTixkh9AwxNXRaaXF4ubY29VkQGn-PY5; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0V5UorMiTP0tD1; YF-V5-G0=bcfc495b47c1efc5be5998b37da5d0e4; wb_cusLike_1869429822=N; YF-Page-G0=061259b1b44eca44c2f66c85297e2f50; _s_tentry=login.sina.com.cn; UOR=,,login.sina.com.cn; Apache=1999527319485.761.1516149419968; ULV=1516149419999:10:10:6:1999527319485.761.1516149419968:1516082845971'
         }
     patten = '<html><head>qqqq</head><body>%s</body></html>'
+    # 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2?current_page=6&since_id={%22last_since_id%22%3A4067354592027723%2C%22res_type%22%3A1%2C%22next_since_id%22%3A4061391054634665}&page=3#Pl_Third_App__11'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
         id_=id, pager_=pager)
     print('>>>> '+url)
@@ -99,8 +100,8 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
         message = {'come':fromz}
         try:
             namez = eachmessage.find(class_='WB_info').a.text
-            if(namez not in fromz):
-                continue
+            # if(namez not in fromz):
+            #     continue
             message['fid'] = eachmessage['tbinfo'].split('=')[1]
             message['mid'] = eachmessage['mid']
 
@@ -186,8 +187,12 @@ if __name__ == '__main__':
     maps=[{'i2' : 'u/5549438666','id2': 1005055549438666,'rnd': 1516069137716,'name':'¿Ç¬È¿º»Ù-≥£π€ ¿“Ù∑®”ÔºØ'},
           {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'≥£”^ ¿“ÙŒ¢≤©'},
           {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'…∆–ƒ¡´–ƒŒ¢≤©'}
+        ,
+          {'i2' : 'u/2405056755','id2': '10080831a481db6e8571a9767e9f1d622892d2','rnd': 1516149484121,'name':'¿Ç¬È¿º»Ù ´¥ '}
           ]
     for chose in range(0,maps.__len__()):
+        if(chose!=2):
+            continue
         i2=maps[chose]['i2']
         id2 = maps[chose]['id2']
         rnd = maps[chose]['rnd']
@@ -196,7 +201,7 @@ if __name__ == '__main__':
         threads = []
         dbs = []
         step = 40
-        for i in range(0, 800, step):
+        for i in range(1, 801, step):
             print(i)
         # "≥£”^ ¿“ÙŒ¢≤©".decode('gbk').encode('utf8')
             dbhandler = Mydb()
