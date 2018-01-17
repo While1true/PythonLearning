@@ -54,9 +54,10 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SINAGLOBAL=8695789997878.903.1502509905779; ULV=1516115400826:8:6:6:4081037197507.004.1516115400823:1516101651728; UOR=,,www.baidu.com; SUHB=0N2EPvXCxzLotI; ALF=1547651394; wvr=6; SCF=AuX85wiJ9O0C48euOfN89HgpZCMFWFe_5ts0iD1AEQkCNv2i8iBJOdDtWsj65nCUMrw5AlWAdD87LCOS7EKB1f0.; YF-Ugrow-G0=8751d9166f7676afdce9885c6d31cd61; SUB=_2A253WmWUDeRhGedG7VsV8ifEyT6IHXVULtBcrDV8PUNbmtBeLRjtkW9NUTixkmBCpicZFjtMJUwkqpX-Wkt_ROAs; SSOLoginState=1516115395; YF-V5-G0=1312426fba7c62175794755e73312c7d; wb_cusLike_1869429822=N; _s_tentry=login.sina.com.cn; Apache=4081037197507.004.1516115400823; YF-Page-G0=2d32d406b6cb1e7730e4e69afbffc88c'
+            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; wvr=6; YF-Ugrow-G0=ea90f703b7694b74b62d38420b5273df; ALF=1547685409; SSOLoginState=1516149409; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByi__bYqce2Nsg57VzYRsiEBf0Rm12FkPxSJFft0xipA0.; SUB=_2A253WuryDeRhGedG7VsV8ifEyT6IHXVULls6rDV8PUNbmtBeLXnYkW9NUTixkh9AwxNXRaaXF4ubY29VkQGn-PY5; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0V5UorMiTP0tD1; YF-V5-G0=bcfc495b47c1efc5be5998b37da5d0e4; wb_cusLike_1869429822=N; YF-Page-G0=061259b1b44eca44c2f66c85297e2f50; _s_tentry=login.sina.com.cn; UOR=,,login.sina.com.cn; Apache=1999527319485.761.1516149419968; ULV=1516149419999:10:10:6:1999527319485.761.1516149419968:1516082845971'
         }
     patten = '<html><head>qqqq</head><body>%s</body></html>'
+    # 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2?current_page=6&since_id={%22last_since_id%22%3A4067354592027723%2C%22res_type%22%3A1%2C%22next_since_id%22%3A4061391054634665}&page=3#Pl_Third_App__11'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
         id_=id, pager_=pager)
     print('>>>> '+url)
@@ -76,7 +77,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
     soup = BeautifulSoup(save, 'lxml')
 
     allmessage = soup.find(class_='WB_feed WB_feed_v3 WB_feed_v4')
-    time.sleep(5)
+    time.sleep(randint(4, 6))
     pager1 = 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100505&is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager}&pagebar=0&pl_name=Pl_Official_MyProfileFeed__24&id={id2}&script_uri=/{name}&feed_type=0&pre_page={prepager}&domain_op=100505&__rnd={rnd}'.format(
         pager=pager, name=id,id2=id2,rnd=rnd, prepager=pager)
     print(pager1)
@@ -84,7 +85,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
     beautiful_soup = BeautifulSoup(data,'lxml')
     list1=beautiful_soup.find_all(class_='WB_cardwrap WB_feed_type S_bg2 WB_feed_like ')
     allmessage.contents.extend(list1)
-    time.sleep(5)
+    time.sleep(randint(4, 6))
     pager2 = 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100505&is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager}&pagebar=1&pl_name=Pl_Official_MyProfileFeed__24&id={id2}&script_uri=/{name}&feed_type=0&pre_page={prepager}&domain_op=100505&__rnd={rnd}'.format(
         pager=pager, name=id,id2=id2,rnd=rnd, prepager=pager)
     print(pager2)
@@ -99,8 +100,8 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
         message = {'come':fromz}
         try:
             namez = eachmessage.find(class_='WB_info').a.text
-            if(namez not in fromz):
-                continue
+            # if(namez not in fromz):
+            #     continue
             message['fid'] = eachmessage['tbinfo'].split('=')[1]
             message['mid'] = eachmessage['mid']
 
@@ -141,17 +142,19 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             size += 1
             if dbhandler:
                 dbhandler.insertx(message)
-            time.sleep(1)
+            message.clear()
+            data=None
+            time.sleep(0.1)
         except Exception as e:
             print(str(pager)+"E=========================E"+e.message)
             pass
 
     print('------------µ⁄'+str(pager)+'“≥Ω· ¯----------------'+str(size)).decode('gbk')
     print('\n')
-    time.sleep(randint(5,8))
+    time.sleep(randint(4,12))
     if(size==0 or pager>=endPager):
-       pass
-    else:getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd)
+       return
+    getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd)
     return
 
 def getType(type):
@@ -180,23 +183,31 @@ def getType(type):
     return TYPES[a]
 
 if __name__ == '__main__':
+# 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd?current_page=3&since_id=44&page=3#Pl_Third_App__46'
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=7&since_id=104&page=3&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160841956'
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=8&since_id=119&page=3&pagebar=1&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160801500'
 
+# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=4&since_id=59&page=2&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=2&domain_op=100808&__rnd=1516160907286'
     maps=[{'i2' : 'u/5549438666','id2': 1005055549438666,'rnd': 1516069137716,'name':'¿Ç¬È¿º»Ù-≥£π€ ¿“Ù∑®”ÔºØ'},
           {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'≥£”^ ¿“ÙŒ¢≤©'},
           {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'…∆–ƒ¡´–ƒŒ¢≤©'}
+        # ,
+        #   {'i2' : 'u/2405056755','id2': '10080831a481db6e8571a9767e9f1d622892d2','rnd': 1516149484121,'name':'¿Ç¬È¿º»Ù ´¥ '}
           ]
     for chose in range(0,maps.__len__()):
-        i2 = maps[chose]['i2']
+        if(chose!=2):
+            continue
+        i2=maps[chose]['i2']
         id2 = maps[chose]['id2']
         rnd = maps[chose]['rnd']
         name = maps[chose]['name']
 
         threads = []
         dbs = []
-        step = 50
-        for i in range(1, 700, step):
+        step = 40
+        for i in range(1, 801, step):
             print(i)
-            # "≥£”^ ¿“ÙŒ¢≤©".decode('gbk').encode('utf8')
+        # "≥£”^ ¿“ÙŒ¢≤©".decode('gbk').encode('utf8')
             dbhandler = Mydb()
             dbs.append(dbhandler)
             thread = threading.Thread(target=getpager, args=(
@@ -204,13 +215,10 @@ if __name__ == '__main__':
             threads.append(thread)
         for tt in threads:
             tt.start()
+            time.sleep(0.5)
         for tt in threads:
             tt.join()
-        for dbss in dbs:
-            dbss.close()
-        print("----------------------------------over----------------------------")
-    import  os
-    time.sleep(5)
-    os.system('shutdown -s -t 0')
+        for dbz in dbs:
+            dbz.close()
     # getpager(id=i2, pager=51,fromz="≥£”^ ¿“ÙŒ¢≤©".decode('gbk').encode('utf8'),dbhandler=dbhandler)
 

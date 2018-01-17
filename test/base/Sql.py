@@ -2,7 +2,7 @@
 import pymysql
 import sys
 print(sys.getdefaultencoding())
-
+reload(sys)
 sys.setdefaultencoding('utf8')
 import threading
 class Mydb(object):
@@ -12,11 +12,10 @@ class Mydb(object):
         self.client = pymysql.connect(host='localhost',charset='utf8', port=3306, user='root', passwd='ck123', db='weibo')
         self.client.autocommit(True)
         self.cursor = self.client.cursor()
-        self.insertSql = "INSERT INTO weibo.master (%s) VALUES (%s)"
+        self.insertSql = "INSERT INTO weibo.master(%s) VALUES (%s)"
 
     def close(self):
         self.cursor.close()
-        self.client.close()
         self.client.close()
 
     def insertx(self,message):
@@ -33,14 +32,9 @@ class Mydb(object):
             ccvalue+="'"+str(value)+"',"
         cckey=cckey[:-1]
         ccvalue=ccvalue[:-1]
-        # if self.lock.acquire():
-        print("-----------------------------------------------------------")
         sql = self.insertSql % (cckey, ccvalue)
         print(sql)
         self.cursor.execute(sql)
-        print("结束-----------------------------------------------------------")
-            # self.lock.release()
-
     def queryx(self):
         return self.cursor.fetchall()
 
