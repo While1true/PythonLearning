@@ -7,7 +7,7 @@ class Animal(object):
        print('在干啥啊啊啊 啊')
 
     def say(self,words):
-        print self.name,(words)
+        print (self.name,(words))
 
     def setName(self,name):
         self.name=name
@@ -35,3 +35,5 @@ class zz(Animal):
 zz.name='sss'
 cc=zz()
 print(cc.name)
+print(dir())
+print(cc)

@@ -10,3 +10,4 @@ def funfun(f,a):
     return f(a,a*a)
 
 print(funfun(fun,9))
+

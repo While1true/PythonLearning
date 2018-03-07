@@ -29,7 +29,7 @@ def fun(total):
 zz=test.clock()
 # lst=[(x,x) for x in xrange(2000000)]
 lst=fun(sys.maxint)
-print str(test.clock()-zz)
+print (str(test.clock()-zz))
 # zz=test.clock()
 # dic=dict(lst)
 # print('======================================')

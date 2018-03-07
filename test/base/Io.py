@@ -19,7 +19,7 @@ def dd(fs,path):
             dd(os.listdir(zz),zz)
         else:
             f2.writelines('\nzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'+zz.encode('gbk')+"\r\n")
-            print 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+            print ('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
             print(zz)
 dd(os.listdir(pathz),pathz)
 f2.flush()

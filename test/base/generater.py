@@ -54,8 +54,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; wvr=6; YF-Ugrow-G0=ea90f703b7694b74b62d38420b5273df; ALF=1547685409; SSOLoginState=1516149409; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByi__bYqce2Nsg57VzYRsiEBf0Rm12FkPxSJFft0xipA0.; SUB=_2A253WuryDeRhGedG7VsV8ifEyT6IHXVULls6rDV8PUNbmtBeLXnYkW9NUTixkh9AwxNXRaaXF4ubY29VkQGn-PY5; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0V5UorMiTP0tD1; YF-V5-G0=bcfc495b47c1efc5be5998b37da5d0e4; wb_cusLike_1869429822=N; YF-Page-G0=061259b1b44eca44c2f66c85297e2f50; _s_tentry=login.sina.com.cn; UOR=,,login.sina.com.cn; Apache=1999527319485.761.1516149419968; ULV=1516149419999:10:10:6:1999527319485.761.1516149419968:1516082845971'
-        }
+            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KMhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; UOR=,,login.sina.com.cn; YF-Page-G0=8ec35b246bb5b68c13549804abd380dc; ALF=1551919170; SSOLoginState=1520383171; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPBySzoitomldJ8RqNgjkZhx0FqP20eAt4KhGro367pfx04.; SUB=_2A253m0STDeRhGedG7VsV8ifEyT6IHXVU0TFbrDV8PUNbmtBeLRHbkW9NUTixkpUPpoWlf0XYq4h0kgfoDGVDtBxs; SUHB=0h14nCxeKynPjP; YF-Ugrow-G0=8751d9166f7676afdce9885c6d31cd61; _s_tentry=login.sina.com.cn; Apache=2082973825720.369.1520383174406; ULV=1520383174474:14:3:2:2082973825720.369.1520383174406:1520383065536; YF-V5-G0=8d4d030c65d0ecae1543b50b93b47f0c'}
     patten = '<html><head>qqqq</head><body>%s</body></html>'
     # 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2?current_page=6&since_id={%22last_since_id%22%3A4067354592027723%2C%22res_type%22%3A1%2C%22next_since_id%22%3A4061391054634665}&page=3#Pl_Third_App__11'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
@@ -99,25 +98,49 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             continue
         message = {'come':fromz}
         try:
-            namez = eachmessage.find(class_='WB_info').a.text
+            # namez = eachmessage.find(class_='WB_info').a.text
             # if(namez not in fromz):
             #     continue
-            message['fid'] = eachmessage['tbinfo'].split('=')[1]
-            message['mid'] = eachmessage['mid']
+            try:
+                message['fid'] = eachmessage['tbinfo'].split('=')[1]
+                message['mid'] = eachmessage['mid']
+            except Exception as e:
+                pass
 
-            timeinfo = eachmessage.find(class_='WB_from S_txt2').find(name='a')
-            message['timestr'] = timeinfo['title']
-            message['datelong'] = timeinfo['date']
+            try:
+                timeinfo = eachmessage.find(class_='WB_from S_txt2').find(name='a')
+                message['timestr'] = timeinfo['title']
+                message['href'] = timeinfo['href']
+                message['datelong'] = timeinfo['date']
+            except Exception as e:
+                print(e.message)
 
             contentinfo = eachmessage.find(class_='WB_text W_f14')
-            message['content'] = contentinfo.contents[0].strip().decode('utf8')
+            content=""
             try:
-                if contentinfo.a:
-                    for hrefStr in contentinfo.a.contents:
-                        if (type(hrefStr) is bs4.element.NavigableString):
-                            message['hrefStr'] = getType(hrefStr.strip())
-                            break
-                    message['href'] = contentinfo.a['href'].decode('utf8')
+                for conent in contentinfo.contents:
+                    try:
+                        content += conent.strip().decode('utf8')
+                    except Exception as e:
+                        pass
+            except Exception as e:
+                try:
+                    conent+=contentinfo.contents[0];
+                except Exception:
+                    pass
+            message['content'] = content
+
+
+            try:
+                try:
+                    if contentinfo.a:
+                        for hrefStr in contentinfo.a.contents:
+                            if (type(hrefStr) is bs4.element.NavigableString):
+                                message['hrefStr'] = getType(hrefStr.strip())
+                                break
+                except Exception:
+                    pass
+                    # message['href'] = contentinfo.a['href'].decode('utf8')
 
                 message['category'] = getType(message['content'])
                 boo = message['category'] == '基本'.decode('gbk').encode('utf8')
@@ -141,7 +164,8 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             print('\n')
             size += 1
             if dbhandler:
-                dbhandler.insertx(message)
+                if(message['content']!=""):
+                    dbhandler.insertx(message)
             message.clear()
             data=None
             time.sleep(0.1)
@@ -204,8 +228,8 @@ if __name__ == '__main__':
 
         threads = []
         dbs = []
-        step = 40
-        for i in range(1, 801, step):
+        step = 30
+        for i in range(101, 102, step):
             print(i)
         # "常觀世音微博".decode('gbk').encode('utf8')
             dbhandler = Mydb()

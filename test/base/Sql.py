@@ -12,7 +12,7 @@ class Mydb(object):
         self.client = pymysql.connect(host='localhost',charset='utf8', port=3306, user='root', passwd='ck123', db='weibo')
         self.client.autocommit(True)
         self.cursor = self.client.cursor()
-        self.insertSql = "INSERT INTO weibo.master(%s) VALUES (%s)"
+        self.insertSql = "INSERT INTO weibo.weibo2(%s) VALUES (%s)"
 
     def close(self):
         self.cursor.close()
