@@ -1,8 +1,10 @@
 # encoding:utf_8
+import sched
 import urllib
 import urllib2
 
 import bs4
+import schedule as schedule
 from bs4 import BeautifulSoup
 import re
 import time
@@ -45,7 +47,7 @@ def loadFenye(url,headers):
     data = json_load['data']
     return re.sub("(\\\)[rtn]*", '', data)
 
-def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0,id2=None,rnd=None):
+def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0,id2=None,rnd=None,datelong=0):
     print('------------第' + str(pager) + '页开开始----------------').decode('gbk')
     if (headers is None):
         headers = {
@@ -56,7 +58,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
             'Host': 'weibo.com',
             'Upgrade-Insecure-Requests': 1,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            'Cookie': 'UOR=lbsyun.baidu.com,widget.weibo.com,www.baidu.com; SINAGLOBAL=8798679448521.457.1506410642729; ULV=1520556684668:17:3:3:2649370704272.7856.1520556684660:1520556297254; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0OMV-EOseDkYY7; ALF=1552092724; SUB=_2A253parlDeRhGedG7VsV8ifEyT6IHXVU0pstrDV8PUNbmtBeLWjSkW9NUTixkhPD4q_3QqItiIBeFSuCfcd0XUqO; WBStorage=c5ff51335af29d81|undefined; login_sid_t=3e03c4db107370a92f8ef4919e529094; cross_origin_proto=SSL; YF-Ugrow-G0=ea90f703b7694b74b62d38420b5273df; _s_tentry=www.baidu.com; Apache=2649370704272.7856.1520556684660; SSOLoginState=1520556725; wvr=6; YF-V5-G0=c99031715427fe982b79bf287ae448f6; YF-Page-G0=f994131fbcce91e683b080a4ad83c421'}
+            'Cookie': 'SINAGLOBAL=1510815786404.578.1515466720461; login_sid_t=803f417737ed57b935a9ac70e6cf7a2f; cross_origin_proto=SSL; YF-Ugrow-G0=ad83bc19c1269e709f753b172bddb094; YF-V5-G0=5f9bd778c31f9e6f413e97a1d464047a; WBStorage=5548c0baa42e6f3d|undefined; wb_view_log=1440*9001; _s_tentry=www.baidu.com; UOR=,,www.baidu.com; Apache=314761279488.90875.1526440481967; ULV=1526440481988:18:2:2:314761279488.90875.1526440481967:1526279500122; SCF=Agq1re9TAoA5niMh9a3akxiE_e7DyTEVC4ydDcoiRPByabbfLl9ZD3WSG8C3Xe_tte6CEql-_6uBaLjCXCKd0Ug.; SUB=_2A253_9IEDeRhGedG7VsV8ifEyT6IHXVUjUTMrDV8PUNbmtBeLWPbkW9NUTixkpl6yI-ebmKtqhTIRGH10oiLPynP; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Whlmpw1aCEGIXSEPnjs_nRV5JpX5KzhUgL.Fo2RSo.Xeo.Reoz2dJLoIEBLxKMLBKqLB.-LxK-L1K2L1hnLxKMLBKqLB.-LxKqL1KqL1KMt; SUHB=0ida5oSGJ0hD9T; ALF=1557976532; SSOLoginState=1526440532; wvr=6; YF-Page-G0=140ad66ad7317901fc818d7fd7743564'}
     patten = '<html><head>qqqq</head><body>%s</body></html>'
     # 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2?current_page=6&since_id={%22last_since_id%22%3A4067354592027723%2C%22res_type%22%3A1%2C%22next_since_id%22%3A4061391054634665}&page=3#Pl_Third_App__11'
     url = u'https://weibo.com/{id_}?is_search=0&visible=0&is_all=1&is_tag=0&profile_ftype=1&page={pager_}'.format(
@@ -111,9 +113,11 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
 
             try:
                 timeinfo = eachmessage.find(class_='WB_from S_txt2').find(name='a')
+                message['datelong'] = timeinfo['date']
+                if(timeinfo['date']<=datelong):
+                    return
                 message['timestr'] = timeinfo['title']
                 message['href'] = timeinfo['href']
-                message['datelong'] = timeinfo['date']
             except Exception as e:
                 print(e.message)
 
@@ -183,7 +187,7 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
     time.sleep(randint(4,12))
     if(size==0 or pager>=endPager):
        return
-    getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd)
+    getpager(headers=headers,id=id,pager=pager+1,fromz=fromz,dbhandler=dbhandler,endPager=endPager,id2=id2,rnd=rnd,datelong=datelong)
     return
 
 def getType(type):
@@ -210,44 +214,35 @@ def getType(type):
     else:
         a=0
     return TYPES[a]
-
-if __name__ == '__main__':
-# 'https://weibo.com/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd?current_page=3&since_id=44&page=3#Pl_Third_App__46'
-# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=7&since_id=104&page=3&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160841956'
-# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=8&since_id=119&page=3&pagebar=1&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=3&domain_op=100808&__rnd=1516160801500'
-
-# 'https://weibo.com/p/aj/v6/mblog/mbloglist?ajwvr=6&domain=100808&current_page=4&since_id=59&page=2&pagebar=0&tab=emceercd&pl_name=Pl_Third_App__46&id=10080831a481db6e8571a9767e9f1d622892d2&script_uri=/p/10080831a481db6e8571a9767e9f1d622892d2/emceercd&feed_type=1&pre_page=2&domain_op=100808&__rnd=1516160907286'
-    maps=[{'i2' : 'u/5549438666','id2': 1005055549438666,'rnd': 1516069137716,'name':'纻麻兰若-常观世音法语集'},
-          {'i2' : 'manjuvimalakirti','id2': 1005051619101101,'rnd': 1515996882697,'name':'常觀世音微博'},
-          {'i2' : 'u/2405056755','id2': 1005052405056755,'rnd': 1516069343040,'name':'善心莲心微博'}
-        # ,
-        #   {'i2' : 'u/2405056755','id2': '10080831a481db6e8571a9767e9f1d622892d2','rnd': 1516149484121,'name':'纻麻兰若诗词'}
-          ]
-    for chose in range(0,maps.__len__()):
-        if(chose!=1):
-            continue
-        i2=maps[chose]['i2']
+def update():
+    maps = [{'i2': 'u/5549438666', 'id2': 1005055549438666, 'rnd': 1516069137716, 'name': '纻麻兰若-常观世音法语集'},
+            {'i2': 'manjuvimalakirti', 'id2': 1005051619101101, 'rnd': 1515996882697, 'name': '常觀世音微博'},
+            {'i2': 'u/2405056755', 'id2': 1005052405056755, 'rnd': 1516069343040, 'name': '善心莲心微博'}
+            # ,
+            #   {'i2' : 'u/2405056755','id2': '10080831a481db6e8571a9767e9f1d622892d2','rnd': 1516149484121,'name':'纻麻兰若诗词'}
+            ]
+    threads = []
+    dbs = []
+    for chose in range(0, maps.__len__()):
+        i2 = maps[chose]['i2']
         id2 = maps[chose]['id2']
         rnd = maps[chose]['rnd']
         name = maps[chose]['name']
-
-        threads = []
-        dbs = []
-        step = 25
-        for i in range(1, 100, step):
-            print(i)
-        # "常觀世音微博".decode('gbk').encode('utf8')
-            dbhandler = Mydb()
-            dbs.append(dbhandler)
-            thread = threading.Thread(target=getpager, args=(
-            None, i2, i, name.decode('gbk').encode('utf8'), dbhandler, i + step - 1, id2, rnd))
-            threads.append(thread)
-        for tt in threads:
-            tt.start()
-            time.sleep(0.5)
-        for tt in threads:
-            tt.join()
-        for dbz in dbs:
-            dbz.close()
-    # getpager(id=i2, pager=51,fromz="常觀世音微博".decode('gbk').encode('utf8'),dbhandler=dbhandler)
-
+        dbhandler = Mydb()
+        dbs.append(dbhandler)
+        thread = threading.Thread(target=getpager, args=(
+            None, i2, 0, name.decode('gbk').encode('utf8'), dbhandler, 100, id2, rnd, dbhandler.querylatesttime()))
+        threads.append(thread)
+    for tt in threads:
+        tt.start()
+        time.sleep(0.5)
+    for tt in threads:
+        tt.join()
+    for dbz in dbs:
+        dbz.close()
+if __name__ == '__main__':
+    update()
+    schedule.every(10).minutes.do(update)
+    while True:
+        schedule.run_pending()
+        time.sleep(5*60)
