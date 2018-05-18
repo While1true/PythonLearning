@@ -4,11 +4,9 @@ import sys
 print(sys.getdefaultencoding())
 reload(sys)
 sys.setdefaultencoding('utf8')
-import threading
 class Mydb(object):
     tableName='master'
     def __init__(self):
-        self.lock=threading.Lock()
         self.client = pymysql.connect(host='localhost',charset='utf8', port=3306, user='root', passwd='ck123', db='weibo')
         self.client.autocommit(True)
         self.cursor = self.client.cursor()
@@ -35,9 +33,9 @@ class Mydb(object):
         sql = self.insertSql % (cckey, ccvalue)
         print(sql)
         self.cursor.execute(sql)
-    def querylatesttime(self):
-        self.cursor.execute("SELECT datelong FROM weibo.masterweibo_master order by datelong desc limit 1")
-        return self.cursor.fetchone()[0]
+    def querylatesttime(self,fromz):
+        self.cursor.execute("SELECT datelong FROM weibo.masterweibo_master where come = '"+fromz+"' order by datelong desc limit 1")
+        return self.cursor.fetchone()[0]['datelong']
 
 
 

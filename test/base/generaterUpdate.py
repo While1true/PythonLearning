@@ -151,13 +151,16 @@ def getpager(headers=None, id=None, pager=1,fromz=None,dbhandler=None,endPager=0
                     pass
                     # message['href'] = contentinfo.a['href'].decode('utf8')
 
-                message['category'] = getType(message['content'])
-                boo = message['category'] == '基本'.decode('gbk').encode('utf8')
-                try:
-                    if (boo and message['hrefStr']!='展开全文'.decode('gbk').encode('utf8')):
-                        message['category'] = message['hrefStr']
-                except Exception:
-                    pass
+                if (fromz == '学诚法师微博'.decode('gbk').encode('utf8')):
+                    message['category'] = '学诚法师微博'.decode('gbk').encode('utf8')
+                else:
+                    message['category'] = getType(message['content'])
+                    boo = message['category'] == '基本'.decode('gbk').encode('utf8')
+                    try:
+                        if (boo and message['hrefStr'] != '展开全文'.decode('gbk').encode('utf8')):
+                            message['category'] = message['hrefStr']
+                    except Exception:
+                        pass
                 imgsbox=eachmessage.find(class_='media_box')
                 if (imgsbox):
                     imgs = imgsbox.find_all(name='img')
@@ -217,7 +220,8 @@ def getType(type):
 def update():
     maps = [{'i2': 'u/5549438666', 'id2': 1005055549438666, 'rnd': 1516069137716, 'name': '纻麻兰若-常观世音法语集'},
             {'i2': 'manjuvimalakirti', 'id2': 1005051619101101, 'rnd': 1515996882697, 'name': '常觀世音微博'},
-            {'i2': 'u/2405056755', 'id2': 1005052405056755, 'rnd': 1516069343040, 'name': '善心莲心微博'}
+            {'i2': 'u/2405056755', 'id2': 1005052405056755, 'rnd': 1516069343040, 'name': '善心莲心微博'},
+            {'i2': 'xuecheng', 'id2': 1005051218353337, 'rnd': 1526610229055, 'name': '学诚法师微博'}
             # ,
             #   {'i2' : 'u/2405056755','id2': '10080831a481db6e8571a9767e9f1d622892d2','rnd': 1516149484121,'name':'纻麻兰若诗词'}
             ]
@@ -231,7 +235,7 @@ def update():
         dbhandler = Mydb()
         dbs.append(dbhandler)
         thread = threading.Thread(target=getpager, args=(
-            None, i2, 0, name.decode('gbk').encode('utf8'), dbhandler, 100, id2, rnd, dbhandler.querylatesttime()))
+            None, i2, 0, name.decode('gbk').encode('utf8'), dbhandler, 100, id2, rnd, dbhandler.querylatesttime(name)))
         threads.append(thread)
     for tt in threads:
         tt.start()
@@ -242,7 +246,4 @@ def update():
         dbz.close()
 if __name__ == '__main__':
     update()
-    schedule.every(10).minutes.do(update)
-    while True:
-        schedule.run_pending()
-        time.sleep(5*60)
+
